@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -78,7 +79,10 @@ const SignupPage = () => {
               <input type="text" id="Pincode" value={Pincode} onChange={(e) => setPincode(e.target.value)} style={{ width: '90%', padding: '10px', border: '1px solid #ccc', borderRadius: '15px' }} />
             </div>
           </div>
-          <button type="submit" style={{ width: '30%',alignItems:'center' ,marginLeft: '345px',marginTop:'10px' ,padding: '15px', background: '#FF7855', color: 'white', border: 'none', borderRadius: '25px', fontSize: '16px', fontWeight: 'bold' }}>Sign-up</button>
+          <button type="submit" style={{ width: '30%',alignItems:'center' ,marginLeft: '345px',marginTop:'10px' ,padding: '15px', background: '#FF7855', color: 'white', border: 'none', borderRadius: '25px', fontSize: '16px', fontWeight: 'bold' , textAlign:'center'}}>Sign-up</button>
+          <p className="Login-link">
+          Don't have an account? <a href="/LoginPage">Log in</a>
+        </p>
         </form>
       </div>
     </div>
