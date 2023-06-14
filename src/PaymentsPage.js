@@ -3,9 +3,9 @@ import './PaymentsPage.css';
 
 const PaymentsPage = () => {
   const [items, setItems] = useState([
-    { id: 1, name: 'Item 1', price: '$10', image: 'item1.jpg' },
-    { id: 2, name: 'Item 2', price: '$20', image: 'item2.jpg' },
-    { id: 3, name: 'Item 3', price: '$30', image: 'item3.jpg' },
+    { id: 1, name: 'Item 1', price: '$10', image: 'item1.jpg', quantity: 1 },
+    { id: 2, name: 'Item 2', price: '$20', image: 'item2.jpg', quantity: 1 },
+    { id: 3, name: 'Item 3', price: '$30', image: 'item3.jpg', quantity: 1 },
   ]);
 
   const [paymentOption, setPaymentOption] = useState('');
@@ -35,12 +35,33 @@ const PaymentsPage = () => {
       name: `Item ${items.length + 1}`,
       price: `$${Math.floor(Math.random() * 100)}`,
       image: `item${items.length + 1}.jpg`,
+      quantity: 1,
     };
     setItems([...items, newItem]);
   };
 
   const handleRemoveItem = (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
+  };
+
+  const handleDecreaseQuantity = (id) => {
+    const updatedItems = items.map((item) => {
+      if (item.id === id && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+    setItems(updatedItems);
+  };
+
+  const handleIncreaseQuantity = (id) => {
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
     setItems(updatedItems);
   };
 
@@ -66,11 +87,17 @@ const PaymentsPage = () => {
                   </div>
                 </div>
                 <div className="item-quantity">
-                  <button className="quantity-button" disabled={true}>
+                  <button
+                    className="quantity-button"
+                    onClick={() => handleDecreaseQuantity(item.id)}
+                  >
                     -
                   </button>
-                  <span className="quantity">1</span>
-                  <button className="quantity-button" disabled={true}>
+                  <span className="quantity">{item.quantity}</span>
+                  <button
+                    className="quantity-button"
+                    onClick={() => handleIncreaseQuantity(item.id)}
+                  >
                     +
                   </button>
                 </div>
@@ -83,16 +110,13 @@ const PaymentsPage = () => {
         ) : (
           <p className="empty-cart-message">Your cart is empty.</p>
         )}
-        <div className="cart-summary">
-          <span className="total-items">Total Items: {items.length}</span>
-          <span className="total-price">
-            Total Price: $
-            {items.reduce((total, item) => total + Number(item.price.replace('$', '')), 0)}
-          </span>
-        </div>
         <button className="add-button" onClick={handleAddItem}>
           Add Item
         </button>
+        <div className="total-amount">
+          Total: $
+          {items.reduce((total, item) => total + (Number(item.price.replace('$', '')) * item.quantity), 0)}
+        </div>
       </div>
       <div className="main-content">
         <h2>Payment Method</h2>
@@ -165,7 +189,7 @@ const PaymentsPage = () => {
               <p>Please keep the exact amount ready for payment.</p>
             </div>
           )}
-          <button type="submit">Pay ${items.reduce((total, item) => total + Number(item.price.replace('$', '')), 0)}</button>
+          <button type="submit">Pay ${items.reduce((total, item) => total + (Number(item.price.replace('$', '')) * item.quantity), 0)}</button>
         </form>
       </div>
     </div>
