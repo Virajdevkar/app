@@ -3,6 +3,7 @@ import './shoppingCartPage.css'; // Import the CSS file
 
 const ShoppingCartPage = () => {
   // Dummy data for items in the cart
+  
   const itemsInCart = [
     { id: 1, name: 'Item 1', price: 10.99, image: 'item1.jpg', link: 'item1-details' },
     { id: 2, name: 'Item 2', price: 15.99, image: 'item2.jpg', link: 'item2-details' },
@@ -20,11 +21,28 @@ const ShoppingCartPage = () => {
     console.log('Bill generated!');
   };
 
-  return (<>
-    
-    <div className="shopping-cart-container">
-       
 
+  return (
+    <div className="container">
+      <div className="section category">
+        <h2>Category</h2>
+        <ul>
+          <li>
+            <a href="/">Profile</a>
+          </li>
+          <li>
+            <a href="/">Account Settings</a>
+          </li>
+          <li>
+            <a href="/">Notifications</a>
+          </li>
+          <li>
+            <a href="/">Messages</a>
+          </li>
+          {/* Add more list items as needed */}
+        </ul>
+      </div>
+      <div className="shopping-cart-container">
       <div className="cart-header">
         <button className="cart-button top-button">Items</button>
         <button className="cart-button top-button">Add items</button>
@@ -70,18 +88,12 @@ const ShoppingCartPage = () => {
       ) : (
         <p className="empty-cart-message">Your shopping cart is empty.</p>
       )}
+      </div>
+      <div className="section-recent-items">
+        <h2>Recent Items</h2>
+        {/* Recent items content */}
+      </div>
     </div>
-    <div className="top-right">
-    <div className="sales-inventory-division">
-      <div className="sales">Sales</div>
-      <div className="inventory">Inventory</div>
-    </div>
-    <div className="description">Welcome to the Shopping Cart Page</div>
-  </div>
-    </>
-    
-
   );
 };
-
 export default ShoppingCartPage;
