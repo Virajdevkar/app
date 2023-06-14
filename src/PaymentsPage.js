@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import './PaymentsPage.css';
 
 const PaymentsPage = () => {
-  const items = [
-    { id: 1, name: 'Item 1', price: '$10' },
-    { id: 2, name: 'Item 2', price: '$20' },
-    { id: 3, name: 'Item 3', price: '$30' },
-    // Add more items as needed
-  ];
+  const [items, setItems] = useState([
+    { id: 1, name: 'Item 1', price: '$10', image: 'item1.jpg' },
+    { id: 2, name: 'Item 2', price: '$20', image: 'item2.jpg' },
+    { id: 3, name: 'Item 3', price: '$30', image: 'item3.jpg' },
+  ]);
 
   const [paymentOption, setPaymentOption] = useState('');
   const [showUPIOptions, setShowUPIOptions] = useState(false);
+  const [selectedUPIOption, setSelectedUPIOption] = useState('');
   const [upiId, setUpiId] = useState('');
 
   const handlePaymentOptionChange = (e) => {
@@ -19,9 +19,29 @@ const PaymentsPage = () => {
     setShowUPIOptions(selectedOption === 'upi');
   };
 
+  const handleUPIOptionChange = (e) => {
+    const selectedUPIOption = e.target.value;
+    setSelectedUPIOption(selectedUPIOption);
+  };
+
   const handleUPIIdChange = (e) => {
     const enteredUPIId = e.target.value;
     setUpiId(enteredUPIId);
+  };
+
+  const handleAddItem = () => {
+    const newItem = {
+      id: items.length + 1,
+      name: `Item ${items.length + 1}`,
+      price: `$${Math.floor(Math.random() * 100)}`,
+      image: `item${items.length + 1}.jpg`,
+    };
+    setItems([...items, newItem]);
+  };
+
+  const handleRemoveItem = (id) => {
+    const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
   };
 
   const handleSubmit = (e) => {
@@ -34,11 +54,45 @@ const PaymentsPage = () => {
     <div className="container">
       <div className="sidebar">
         <h2>Items</h2>
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>{item.name} - {item.price}</li>
-          ))}
-        </ul>
+        {items.length > 0 ? (
+          <ul className="item-list">
+            {items.map((item) => (
+              <li className="item-block" key={item.id}>
+                <div className="item-details">
+                  <img className="item-image" src={item.image} alt={item.name} />
+                  <div className="item-info">
+                    <div className="item-name">{item.name}</div>
+                    <div className="item-price">{item.price}</div>
+                  </div>
+                </div>
+                <div className="item-quantity">
+                  <button className="quantity-button" disabled={true}>
+                    -
+                  </button>
+                  <span className="quantity">1</span>
+                  <button className="quantity-button" disabled={true}>
+                    +
+                  </button>
+                </div>
+                <button className="remove-button" onClick={() => handleRemoveItem(item.id)}>
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-cart-message">Your cart is empty.</p>
+        )}
+        <div className="cart-summary">
+          <span className="total-items">Total Items: {items.length}</span>
+          <span className="total-price">
+            Total Price: $
+            {items.reduce((total, item) => total + Number(item.price.replace('$', '')), 0)}
+          </span>
+        </div>
+        <button className="add-button" onClick={handleAddItem}>
+          Add Item
+        </button>
       </div>
       <div className="main-content">
         <h2>Payment Method</h2>
@@ -57,10 +111,16 @@ const PaymentsPage = () => {
           </div>
           <div className="form-group">
             <label htmlFor="paymentOption">Payment Option:</label>
-            <select id="paymentOption" value={paymentOption} onChange={handlePaymentOptionChange} required>
+            <select
+              id="paymentOption"
+              value={paymentOption}
+              onChange={handlePaymentOptionChange}
+              required
+            >
               <option value="">Select</option>
               <option value="card">Credit/Debit Card</option>
               <option value="upi">UPI</option>
+              <option value="cash">Cash</option>
             </select>
           </div>
           {showUPIOptions && (
@@ -68,20 +128,44 @@ const PaymentsPage = () => {
               <h3>UPI Options</h3>
               <div className="form-group">
                 <label htmlFor="upiIdOption">Select UPI Option:</label>
-                <select id="upiIdOption" required>
+                <select id="upiIdOption" onChange={handleUPIOptionChange} required>
                   <option value="">Select</option>
                   <option value="gpay">Google Pay</option>
-                  <option value="paytm">Paytm</option>
-                  <option value="phonepay">PhonePe</option>
+                  <option value="phonepe">PhonePe</option>
                 </select>
               </div>
+              {selectedUPIOption && (
+                <div className="qr-code">
+                  <h4>{selectedUPIOption === 'gpay' ? 'Google Pay' : 'PhonePe'} QR Code</h4>
+                  <img
+                    src={
+                      selectedUPIOption === 'gpay'
+                        ? 'gpay-qr.png'
+                        : 'phonepe-qr.png'
+                    }
+                    alt={selectedUPIOption === 'gpay' ? 'Google Pay QR Code' : 'PhonePe QR Code'}
+                  />
+                </div>
+              )}
               <div className="form-group">
                 <label htmlFor="upiId">Enter UPI ID:</label>
-                <input type="text" id="upiId" value={upiId} onChange={handleUPIIdChange} required />
+                <input
+                  type="text"
+                  id="upiId"
+                  value={upiId}
+                  onChange={handleUPIIdChange}
+                  required
+                />
               </div>
             </div>
           )}
-          <button type="submit">Make Payment</button>
+          {paymentOption === 'cash' && (
+            <div className="cash-payment">
+              <h3>Cash Payment</h3>
+              <p>Please keep the exact amount ready for payment.</p>
+            </div>
+          )}
+          <button type="submit">Pay ${items.reduce((total, item) => total + Number(item.price.replace('$', '')), 0)}</button>
         </form>
       </div>
     </div>

@@ -7,7 +7,8 @@
   }
   
   .login-form-container {
-    max-width: 400px;
+    width: 40vh;
+    height: 40vh;
     padding: 40px;
     background-color: #fff;
     border-radius: 8px;

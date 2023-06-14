@@ -6,6 +6,7 @@
     border-radius: 8px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-top: vh;
   }
   
   .cart-header {
@@ -109,4 +110,20 @@
     font-style: italic;
     color: #888;
   }
+
+  
+.section-recent-items {
+  background-color: #5e0909;
+  border: 1px black;
+}
+
+.recent-items h2 {
+  margin-bottom: 10px;
+}
+
+
+
+.section-category{
+  background-color: #5e0909;
+}
   

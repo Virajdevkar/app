@@ -1,11 +1,12 @@
 import React from 'react';
 import SignupPage from './SignupPage';
 import Navbar from './Navbar';
-import CreateBillPage from './CreateBillPage';
 import ShoppingCartPage from './ShoppingCartPage';
 import LoginPage from './LoginPage';
-import AddItemsPage from './AddItemsPage';
+
 import PaymentsPage from './PaymentsPage';
+
+
 
 
 
@@ -14,12 +15,24 @@ const App = () => {
     <div>
       <Navbar />
       <SignupPage />
-      <CreateBillPage />
-      <ShoppingCartPage/>
       <LoginPage />
-      <AddItemsPage/>
+      <Navbar />
+      <ShoppingCartPage/>
+      
+      <Navbar />
       <PaymentsPage />
-      {/* Other content of your application */}
+
+      
+      
+  
+      
+      
+      {/* Other content of your application
+      
+      <AddItemsPage/>
+      import AddItemsPage from './AddItemsPage';
+      <CreateBillPage />
+      import CreateBillPage from './CreateBillPage';*/}
     </div>
     
   );
