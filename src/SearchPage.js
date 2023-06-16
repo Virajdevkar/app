@@ -22,6 +22,7 @@ const SearchPage = () => {
     );
 
     setSearchResults(results);
+    
   };
 
   const handleAddNewItem = () => {
