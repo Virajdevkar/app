@@ -5,6 +5,8 @@ import ShoppingCartPage from './ShoppingCartPage';
 import LoginPage from './LoginPage';
 
 import PaymentsPage from './PaymentsPage';
+import SearchPage from './SearchPage';
+
 
 
 
@@ -13,6 +15,7 @@ import PaymentsPage from './PaymentsPage';
 const App = () => {
   return (
     <div>
+      
       <Navbar />
       <SignupPage />
       <LoginPage />
@@ -21,14 +24,14 @@ const App = () => {
       
       <Navbar />
       <PaymentsPage />
+      <Navbar />
+      <SearchPage/>
 
       
       
-  
-      
-      
       {/* Other content of your application
-      
+      <LandingPage/>
+      import LandingPage from './LandingPage';
       <AddItemsPage/>
       import AddItemsPage from './AddItemsPage';
       <CreateBillPage />
